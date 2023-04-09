@@ -1,0 +1,9 @@
+summary: "Fetch All Companies Latest Stock Prices"
+description: "This API will get the detail of latest stock price of all companies."
+tags:
+  - "company"
+produces:
+- "application/json"
+responses:
+  200:
+    description: "Success"

@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  backend:
+    build: ./backend
+    container_name: estock-backend
+    network_mode: host
+
+  frontend:
+    build: ./frontend
+    container_name: estock-frontend
+    depends_on:
+      - backend
+    network_mode: host
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    environment:
+      - SERVER_NAME=0.0.0.0   # update this with EC2 public IP address
+    network_mode: host

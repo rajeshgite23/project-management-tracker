@@ -1,0 +1,104 @@
+Resources:
+  CompanyTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        -
+          AttributeName: "C_CODE"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "C_CODE"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: "CompanyTable"
+  StockTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "C_CODE"
+          AttributeType: "S"
+        - AttributeName: "S_TIMESTAMP"
+          AttributeType: "N"
+      KeySchema:
+        - AttributeName: "C_CODE"
+          KeyType: "HASH"
+        - AttributeName: "S_TIMESTAMP"
+          KeyType: "RANGE"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+      TableName: "StockTable"
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: 'Security Group of E Stock Market Application'
+      GroupName: 'E Stock Market Security Group'
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          ToPort: 22
+          FromPort: 22
+          IpProtocol: tcp
+        - CidrIp: 0.0.0.0/0
+          ToPort: 80
+          FromPort: 80
+          IpProtocol: tcp
+        - CidrIp: 0.0.0.0/0
+          ToPort: 3000
+          FromPort: 3000
+          IpProtocol: tcp
+        - CidrIp: 0.0.0.0/0
+          ToPort: 5000
+          FromPort: 5000
+          IpProtocol: tcp
+  EC2IAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: DynamoDBInlinePolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'dynamodb:Query'
+                  - 'dynamodb:Scan'
+                  - 'dynamodb:PutItem'
+                  - 'dynamodb:Delete*'
+                  - 'dynamodb:Update*'
+                  - 'dynamodb:Get*'
+                Resource: '*'
+      RoleName: EC2DynamoDBRole
+  IAMInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: ec2-instance-profile
+      Roles:
+        - !Ref EC2IAMRole
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: eu-west-2a
+      ImageId: ami-0758d98b134137d18
+      KeyName: estockmarket-kp
+      InstanceType: t2.micro
+      SecurityGroups:
+        - !Ref SecurityGroup
+      UserData:
+        Fn::Base64:
+          !Sub |
+          #!/bin/bash
+          sudo apt-get update -y
+          sudo apt-get install docker-compose -y
+      IamInstanceProfile: !Ref IAMInstanceProfile

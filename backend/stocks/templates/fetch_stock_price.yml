@@ -1,0 +1,36 @@
+summary: "Fetch Stock Price of Company"
+description: "This API will get the stock proces of company based on time-frame."
+tags:
+  - "stocks"
+produces:
+- "application/json"
+parameters:
+- in: path
+  name: companycode
+  description: "Enter the Company Code"
+  required: "true"
+  schema:
+    type: "object"
+    properties:
+      order:
+        type: "object"
+    example: 'XYZ'
+- in: path
+  name: startdate
+  description: "Enter the Start Date (YYYYMMDD)"
+  required: "true"
+  schema:
+    type: "string"
+    example: 20220428
+- in: path
+  name: enddate
+  description: "Enter the End Date (YYYYMMDD)"
+  required: "true"
+  schema:
+    type: "string"
+    example: 20220430
+responses:
+  200:
+    description: "Success"
+  404:
+    description: "Not Found"

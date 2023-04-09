@@ -1,0 +1,21 @@
+summary: "Delete Company Detail"
+description: "This API will delete the company details."
+tags:
+  - "company"
+produces:
+- "application/json"
+parameters:
+- in: path
+  name: "companycode"
+  description: "Enter the Company Code"
+  type: "string"
+  required: "true"
+  schema:
+    type: "object"
+    properties:
+      order:
+        type: "object"
+    example: 'XYZ'
+responses:
+  200:
+    description: "Success"

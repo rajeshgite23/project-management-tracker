@@ -1,0 +1,6 @@
+node_modules
+Dockerfile
+build
+**/node_modules
+**/.DS_Store
+**/.git

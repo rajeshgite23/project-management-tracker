@@ -1,0 +1,22 @@
+summary: "Fetch One Company Detail along with latest price"
+description: "This API will get the detail of company along with latest price."
+tags:
+  - "company"
+produces:
+- "application/json"
+parameters:
+- in: path
+  name: companycode
+  description: "Enter the Company Code"
+  required: "true"
+  schema:
+    type: "object"
+    properties:
+      order:
+        type: "object"
+    example: 'XYZ'
+responses:
+  200:
+    description: "Success"
+  404:
+    description: "Not Found"

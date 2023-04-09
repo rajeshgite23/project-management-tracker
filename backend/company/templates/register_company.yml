@@ -1,0 +1,33 @@
+summary: "Register Company"
+description: "This API will register the new company."
+tags:
+  - "company"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+parameters:
+- in: "body"
+  name: "body"
+  description: "Accepts a input values for registering a Company"
+  required: "true"
+  schema:
+    type: "object"
+    properties:
+      order:
+        type: "object"
+    example: {'C_CODE': 'XYZ', 'C_NAME': 'The XYZ Ltd.',
+              'C_CEO': 'xyz_ceo', 'C_TURNOVER': 100000000,
+               'C_WEBSITE': 'www.xyz.com', 'C_EXCHANGE': 'NSE'}
+responses:
+  200:
+    description: "Success"
+    schema:
+      type: "object"
+      properties:
+        data:
+          type: "object"
+        status:
+          type: "string"
+        message:
+          type: "string"

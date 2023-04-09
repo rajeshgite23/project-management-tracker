@@ -1,0 +1,41 @@
+summary: "Add a Stock to the company"
+description: "This API will add the stock details  of the new company."
+tags:
+  - "stocks"
+consumes:
+- "application/json"
+produces:
+- "application/json"
+parameters:
+- in: path
+  name: companycode
+  description: "Enter the Company Code"
+  required: "true"
+  schema:
+    type: "object"
+    properties:
+      order:
+        type: "object"
+    example: 'XYZ'
+- in: body
+  name: stock_price
+  description: "Enter the Stock Price"
+  required: "true"
+  schema:
+    type: "object"
+    properties:
+      order:
+        type: "object"
+    example: {'S_PRICE': 123.56}
+responses:
+  200:
+    description: "Success"
+    schema:
+      type: "object"
+      properties:
+        data:
+          type: "object"
+        status:
+          type: "string"
+        message:
+          type: "string"
